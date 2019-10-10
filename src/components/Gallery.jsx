@@ -10,7 +10,7 @@ export function Gallery({ photos, getPhotos, incrementPage, decrementPage, page 
   }, [page]);
   return (
     <div className="component">
-      {photos.map(photo => <Photo photo={photo} key ={photo.id}/>)}
+      {photos.map(photo => <Photo photo={photo} key={photo.id} />)}
       <div>
         <button onClick={decrementPage} disabled={page === 1}>Back</button>
         <button onClick={incrementPage}>Next</button>

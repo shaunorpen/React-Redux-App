@@ -10,6 +10,16 @@ export function photosReducer(state = initialPhotos, action) {
   }
 }
 
+const initialErrors = [];
+export function errorReducer(state = initialErrors, action) {
+  switch (action.type) {
+    case (types.ADD_ERROR):
+      return [...state, action.payload];
+    default:
+      return state;
+  }
+}
+
 const initialPage = 1;
 export function pageReducer(state = initialPage, action) {
   switch (action.type) {

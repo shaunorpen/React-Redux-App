@@ -1,6 +1,12 @@
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import * as types from './actionTypes';
+
+export function addError(error) {
+  return {
+    type: types.ADD_ERROR,
+    payload: error,
+  };
+}
 
 export function addPhotos(photos) {
   return {
@@ -27,5 +33,7 @@ export const getPhotos = (url) => dispatch => {
       const photos = res.data;
       dispatch(addPhotos(photos));
     })
-    .catch(err => console.log(err.message));
+    .catch(err => {
+      dispatch(addError(err.message));
+    });
 };
