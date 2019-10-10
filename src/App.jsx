@@ -7,6 +7,7 @@ import Gallery from './components/Gallery';
 import * as reducers from './state/reducers';
 
 import './App.less';
+import 'bulma/css/bulma.css';
 
 const rootReducer = combineReducers({
   photos: reducers.photosReducer,
