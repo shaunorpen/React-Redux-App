@@ -1909,7 +1909,7 @@ module.exports = {
 
 exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".component {\n  margin: 20px;\n  padding: 10px;\n  border: 2px solid grey;\n  border-radius: 4px;\n}\n", ""]);
+exports.push([module.i, ".component {\n  margin: 20px;\n  padding: 10px;\n  border: 2px solid grey;\n  border-radius: 4px;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n.component div {\n  width: calc(99%/3);\n}\n.component div img {\n  width: 100%;\n}\n", ""]);
 
 
 /***/ }),
@@ -38118,7 +38118,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _components_Market__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Market */ "./src/components/Market.jsx");
+/* harmony import */ var _components_Gallery__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Gallery */ "./src/components/Gallery.jsx");
 /* harmony import */ var _state_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./state/reducers */ "./src/state/reducers.js");
 /* harmony import */ var _App_less__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./App.less */ "./src/App.less");
 /* harmony import */ var _App_less__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_App_less__WEBPACK_IMPORTED_MODULE_7__);
@@ -38129,20 +38129,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // create a combined reducer (4)
 
-const monsterReducer = Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
-  // the key is the real name for the slice of state
-  cart: _state_reducers__WEBPACK_IMPORTED_MODULE_6__["cartReducer"],
-  stock: _state_reducers__WEBPACK_IMPORTED_MODULE_6__["stockReducer"]
-}); // feed the createStore the combined reducer (5)
-// THERE ARE MANY WAYS TO CREATE A STORE. SEE DOCS!
-
-const store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(monsterReducer, {}, Object(redux__WEBPACK_IMPORTED_MODULE_3__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"]), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // inject the store into the provider (6)
+const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
+  photos: _state_reducers__WEBPACK_IMPORTED_MODULE_6__["photosReducer"]
+});
+const store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(rootReducer, {}, Object(redux__WEBPACK_IMPORTED_MODULE_3__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"]), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // inject the store into the provider (6)
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_4__["Provider"], {
   store: store
-}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Market__WEBPACK_IMPORTED_MODULE_5__["default"], null))), document.querySelector('#target'));
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Gallery__WEBPACK_IMPORTED_MODULE_5__["default"], null))), document.querySelector('#target'));
 
 /***/ }),
 
@@ -38173,76 +38168,63 @@ if (content.locals) {
 
 /***/ }),
 
-/***/ "./src/components/Market.jsx":
-/*!***********************************!*\
-  !*** ./src/components/Market.jsx ***!
-  \***********************************/
-/*! exports provided: default, Market */
+/***/ "./src/components/Gallery.jsx":
+/*!************************************!*\
+  !*** ./src/components/Gallery.jsx ***!
+  \************************************/
+/*! exports provided: Gallery, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Market", function() { return Market; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Gallery", function() { return Gallery; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _state_actionCreators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../state/actionCreators */ "./src/state/actionCreators.js");
+/* harmony import */ var _Photo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Photo */ "./src/components/Photo.jsx");
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(state => state, _state_actionCreators__WEBPACK_IMPORTED_MODULE_2__)(Market));
-function Market({
-  addToCart,
-  stock,
-  cart,
-  getStock
+
+function Gallery({
+  photos,
+  getPhotos,
+  incrementPage
 }) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    getStock();
+    getPhotos();
   }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "component"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ItemsList, {
-    items: stock.fruits,
-    addToCart: addToCart
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ItemsList, {
-    items: stock.meats,
-    addToCart: addToCart
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Cart, {
-    stock: stock,
-    cart: cart
-  }));
-}
-
-function Cart({
-  cart,
-  stock
-}) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Cart:"), cart.length ? cart.map(itemId => {
-    const allItems = stock.meats.concat(stock.fruits);
-    const theItem = allItems.find(item => item.id === itemId);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, theItem.name);
-  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Nothing in the cart. Sad!"));
-}
-
-function Item({
-  item,
-  addToCart
-}) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: () => addToCart(item.id)
-  }, "Add To Cart"));
-}
-
-function ItemsList({
-  items,
-  addToCart
-}) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, items.map(item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
-    key: item.id,
-    item: item,
-    addToCart: addToCart
+  }, photos.map(photo => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Photo__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    photo: photo
   })));
+}
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(state => state, _state_actionCreators__WEBPACK_IMPORTED_MODULE_2__)(Gallery));
+
+/***/ }),
+
+/***/ "./src/components/Photo.jsx":
+/*!**********************************!*\
+  !*** ./src/components/Photo.jsx ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Photo; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+function Photo({
+  photo
+}) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: `https://picsum.photos/id/${photo.id}/400`,
+    alt: `Author: ${photo.author}`
+  }));
 }
 
 /***/ }),
@@ -38251,53 +38233,35 @@ function ItemsList({
 /*!*************************************!*\
   !*** ./src/state/actionCreators.js ***!
   \*************************************/
-/*! exports provided: addToCart, getFruits, getMeats, getStock */
+/*! exports provided: addPhotos, incrementPage, getPhotos */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToCart", function() { return addToCart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFruits", function() { return getFruits; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMeats", function() { return getMeats; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getStock", function() { return getStock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPhotos", function() { return addPhotos; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "incrementPage", function() { return incrementPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPhotos", function() { return getPhotos; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actionTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actionTypes */ "./src/state/actionTypes.js");
 
 
-const todosApi = 'http://localhost:4000/todos';
-const fruitsApi = 'http://localhost:4000/market/fruits';
-const meatsApi = 'http://localhost:4000/market/meats'; // action creators here (7)
-// THIS IS THE PLACE FOR NASTY, IMPURE THINGS
-// like moment.js, uuid, Math.random, async...
-// COMPONENTS AND REDUCERS SHOULD NOT DEAL WITH THAT STUFF!
-
-function addToCart(itemId) {
+const photosApi = 'https://picsum.photos/v2/list?limit=9&page=1';
+function addPhotos(photos) {
   return {
-    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["ADD_TO_CART"],
-    payload: itemId
+    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["ADD_PHOTOS"],
+    payload: photos
   };
 }
-function getFruits(fruits) {
+function incrementPage() {
   return {
-    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["ADD_FRUITS"],
-    payload: fruits
+    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["INCREMENT_PAGE"]
   };
 }
-function getMeats(meats) {
-  return {
-    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["ADD_MEATS"],
-    payload: meats
-  };
-}
-const getStock = () => dispatch => {
-  const fruitsPromise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(fruitsApi);
-  const meatsPromise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(meatsApi);
-  Promise.all([fruitsPromise, meatsPromise]).then(([fruitsApiResponse, meatsApiResponse]) => {
-    const fruits = fruitsApiResponse.data;
-    const meats = meatsApiResponse.data;
-    dispatch(getFruits(fruits));
-    dispatch(getMeats(meats));
+const getPhotos = () => dispatch => {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(photosApi).then(res => {
+    const photos = res.data;
+    dispatch(addPhotos(photos));
   }).catch(err => console.log(err.message));
 };
 
@@ -38307,18 +38271,15 @@ const getStock = () => dispatch => {
 /*!**********************************!*\
   !*** ./src/state/actionTypes.js ***!
   \**********************************/
-/*! exports provided: ADD_FRUITS, ADD_MEATS, ADD_TO_CART */
+/*! exports provided: ADD_PHOTOS, INCREMENT_PAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_FRUITS", function() { return ADD_FRUITS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_MEATS", function() { return ADD_MEATS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TO_CART", function() { return ADD_TO_CART; });
-// action types here (2)
-const ADD_FRUITS = 'ADD_FRUITS';
-const ADD_MEATS = 'ADD_MEATS';
-const ADD_TO_CART = 'ADD_TO_CART';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_PHOTOS", function() { return ADD_PHOTOS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INCREMENT_PAGE", function() { return INCREMENT_PAGE; });
+const ADD_PHOTOS = 'ADD_PHOTOS';
+const INCREMENT_PAGE = 'INCREMENT_PAGE';
 
 /***/ }),
 
@@ -38326,47 +38287,30 @@ const ADD_TO_CART = 'ADD_TO_CART';
 /*!*******************************!*\
   !*** ./src/state/reducers.js ***!
   \*******************************/
-/*! exports provided: cartReducer, stockReducer */
+/*! exports provided: photosReducer, pageReducer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cartReducer", function() { return cartReducer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stockReducer", function() { return stockReducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photosReducer", function() { return photosReducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pageReducer", function() { return pageReducer; });
 /* harmony import */ var _actionTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actionTypes */ "./src/state/actionTypes.js");
-// (3)
- // - rename the reducer, give it a unique name, expose it
-// - make sure the reducer is a "pure" function
-// - which takes state (slice) and an action as args
-// - and returns FRESH NEW STATE (slice)
-// - NO RANDOMNESS no uuid() no moment.js no Math.random()
-// - we need a default parameter to supply the initial value for the slice
 
-const initialCart = [];
-function cartReducer(state = initialCart, action) {
+const initialPhotos = [];
+function photosReducer(state = initialPhotos, action) {
   switch (action.type) {
-    case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["ADD_TO_CART"]:
-      return state.concat(action.payload);
+    case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["ADD_PHOTOS"]:
+      return [...state, ...action.payload];
 
     default:
       return state;
   }
 }
-const intialStock = {
-  meats: [],
-  fruits: []
-};
-function stockReducer(state = intialStock, action) {
+const initialPage = 1;
+function pageReducer(state = initialPage, action) {
   switch (action.type) {
-    case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["ADD_FRUITS"]:
-      return { ...state,
-        fruits: action.payload
-      };
-
-    case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["ADD_MEATS"]:
-      return { ...state,
-        meats: action.payload
-      };
+    case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["INCREMENT_PAGE"]:
+      return state + 1;
 
     default:
       return state;

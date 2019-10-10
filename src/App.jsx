@@ -3,22 +3,17 @@ import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import Market from './components/Market';
+import Gallery from './components/Gallery';
 import * as reducers from './state/reducers';
 
 import './App.less';
 
-// create a combined reducer (4)
-const monsterReducer = combineReducers({
-  // the key is the real name for the slice of state
-  cart: reducers.cartReducer,
-  stock: reducers.stockReducer,
+const rootReducer = combineReducers({
+  photos: reducers.photosReducer,
 });
 
-// feed the createStore the combined reducer (5)
-// THERE ARE MANY WAYS TO CREATE A STORE. SEE DOCS!
 const store = createStore(
-  monsterReducer,
+  rootReducer,
   {},
   compose(
     applyMiddleware(thunk),
@@ -29,6 +24,6 @@ const store = createStore(
 // inject the store into the provider (6)
 ReactDOM.render(<>
   <Provider store={store}>
-    <Market />
+    <Gallery />
   </Provider>
 </>, document.querySelector('#target'));

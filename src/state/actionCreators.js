@@ -1,45 +1,26 @@
 import axios from 'axios';
 import * as types from './actionTypes';
 
-const todosApi = 'http://localhost:4000/todos';
-const fruitsApi = 'http://localhost:4000/market/fruits';
-const meatsApi = 'http://localhost:4000/market/meats';
+const photosApi = 'https://picsum.photos/v2/list?limit=9&page=1';
 
-// action creators here (7)
-// THIS IS THE PLACE FOR NASTY, IMPURE THINGS
-// like moment.js, uuid, Math.random, async...
-// COMPONENTS AND REDUCERS SHOULD NOT DEAL WITH THAT STUFF!
-
-export function addToCart(itemId) {
+export function addPhotos(photos) {
   return {
-    type: types.ADD_TO_CART,
-    payload: itemId,
+    type: types.ADD_PHOTOS,
+    payload: photos,
   };
 }
 
-export function getFruits(fruits) {
+export function incrementPage() {
   return {
-    type: types.ADD_FRUITS,
-    payload: fruits,
+    type: types.INCREMENT_PAGE,
   };
 }
 
-export function getMeats(meats) {
-  return {
-    type: types.ADD_MEATS,
-    payload: meats,
-  };
-}
-
-export const getStock = () => dispatch => {
-  const fruitsPromise = axios.get(fruitsApi);
-  const meatsPromise = axios.get(meatsApi);
-  Promise.all([fruitsPromise, meatsPromise])
-    .then(([fruitsApiResponse, meatsApiResponse]) => {
-      const fruits = fruitsApiResponse.data;
-      const meats = meatsApiResponse.data;
-      dispatch(getFruits(fruits));
-      dispatch(getMeats(meats));
+export const getPhotos = () => dispatch => {
+  axios.get(photosApi)
+    .then(res => {
+      const photos = res.data;
+      dispatch(addPhotos(photos));
     })
     .catch(err => console.log(err.message));
 };
