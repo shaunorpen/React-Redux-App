@@ -10,6 +10,7 @@ import './App.less';
 
 const rootReducer = combineReducers({
   photos: reducers.photosReducer,
+  page: reducers.pageReducer,
 });
 
 const store = createStore(

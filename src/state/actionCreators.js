@@ -1,7 +1,6 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import * as types from './actionTypes';
-
-const photosApi = 'https://picsum.photos/v2/list?limit=9&page=1';
 
 export function addPhotos(photos) {
   return {
@@ -16,8 +15,14 @@ export function incrementPage() {
   };
 }
 
-export const getPhotos = () => dispatch => {
-  axios.get(photosApi)
+export function decrementPage() {
+  return {
+    type: types.DECREMENT_PAGE,
+  };
+}
+
+export const getPhotos = (url) => dispatch => {
+  axios.get(url)
     .then(res => {
       const photos = res.data;
       dispatch(addPhotos(photos));

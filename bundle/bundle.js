@@ -38131,7 +38131,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
-  photos: _state_reducers__WEBPACK_IMPORTED_MODULE_6__["photosReducer"]
+  photos: _state_reducers__WEBPACK_IMPORTED_MODULE_6__["photosReducer"],
+  page: _state_reducers__WEBPACK_IMPORTED_MODULE_6__["pageReducer"]
 });
 const store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(rootReducer, {}, Object(redux__WEBPACK_IMPORTED_MODULE_3__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"]), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // inject the store into the provider (6)
 
@@ -38190,16 +38191,25 @@ __webpack_require__.r(__webpack_exports__);
 function Gallery({
   photos,
   getPhotos,
-  incrementPage
+  incrementPage,
+  decrementPage,
+  page
 }) {
+  const photosApi = `https://picsum.photos/v2/list?limit=9&page=${page}`;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    getPhotos();
-  }, []);
+    getPhotos(photosApi);
+  }, [page]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "component"
   }, photos.map(photo => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Photo__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    photo: photo
-  })));
+    photo: photo,
+    key: photo.id
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: decrementPage,
+    disabled: page === 1
+  }, "Back"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: incrementPage
+  }, "Next")));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(state => state, _state_actionCreators__WEBPACK_IMPORTED_MODULE_2__)(Gallery));
 
@@ -38237,33 +38247,40 @@ function Photo({
 /*!*************************************!*\
   !*** ./src/state/actionCreators.js ***!
   \*************************************/
-/*! exports provided: addPhotos, incrementPage, getPhotos */
+/*! exports provided: addPhotos, incrementPage, decrementPage, getPhotos */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPhotos", function() { return addPhotos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "incrementPage", function() { return incrementPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decrementPage", function() { return decrementPage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPhotos", function() { return getPhotos; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actionTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actionTypes */ "./src/state/actionTypes.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actionTypes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actionTypes */ "./src/state/actionTypes.js");
 
 
-const photosApi = 'https://picsum.photos/v2/list?limit=9&page=1';
+
 function addPhotos(photos) {
   return {
-    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["ADD_PHOTOS"],
+    type: _actionTypes__WEBPACK_IMPORTED_MODULE_2__["ADD_PHOTOS"],
     payload: photos
   };
 }
 function incrementPage() {
   return {
-    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["INCREMENT_PAGE"]
+    type: _actionTypes__WEBPACK_IMPORTED_MODULE_2__["INCREMENT_PAGE"]
   };
 }
-const getPhotos = () => dispatch => {
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(photosApi).then(res => {
+function decrementPage() {
+  return {
+    type: _actionTypes__WEBPACK_IMPORTED_MODULE_2__["DECREMENT_PAGE"]
+  };
+}
+const getPhotos = url => dispatch => {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url).then(res => {
     const photos = res.data;
     dispatch(addPhotos(photos));
   }).catch(err => console.log(err.message));
@@ -38275,15 +38292,17 @@ const getPhotos = () => dispatch => {
 /*!**********************************!*\
   !*** ./src/state/actionTypes.js ***!
   \**********************************/
-/*! exports provided: ADD_PHOTOS, INCREMENT_PAGE */
+/*! exports provided: ADD_PHOTOS, INCREMENT_PAGE, DECREMENT_PAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_PHOTOS", function() { return ADD_PHOTOS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INCREMENT_PAGE", function() { return INCREMENT_PAGE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DECREMENT_PAGE", function() { return DECREMENT_PAGE; });
 const ADD_PHOTOS = 'ADD_PHOTOS';
 const INCREMENT_PAGE = 'INCREMENT_PAGE';
+const DECREMENT_PAGE = 'DECREMENT_PAGE';
 
 /***/ }),
 
@@ -38304,7 +38323,7 @@ const initialPhotos = [];
 function photosReducer(state = initialPhotos, action) {
   switch (action.type) {
     case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["ADD_PHOTOS"]:
-      return [...state, ...action.payload];
+      return action.payload;
 
     default:
       return state;
@@ -38315,6 +38334,9 @@ function pageReducer(state = initialPage, action) {
   switch (action.type) {
     case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["INCREMENT_PAGE"]:
       return state + 1;
+
+    case _actionTypes__WEBPACK_IMPORTED_MODULE_0__["DECREMENT_PAGE"]:
+      return state - 1;
 
     default:
       return state;
