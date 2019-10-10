@@ -1909,7 +1909,7 @@ module.exports = {
 
 exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".component {\n  margin: 20px;\n  padding: 10px;\n  border: 2px solid grey;\n  border-radius: 4px;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n.component div {\n  width: calc(99%/3);\n}\n.component div img {\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, ".component {\n  margin: 20px;\n  padding: 10px;\n  border: 2px solid grey;\n  border-radius: 4px;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n.component div {\n  background: #e6e6e6;\n  padding: 10px;\n  margin: 10px;\n  border-radius: 5px;\n}\n.component div img {\n  width: 100%;\n}\n.component div p {\n  display: flex;\n  justify-content: space-between;\n  margin: 10px 0;\n  color: #343434;\n}\n.component div p a {\n  text-decoration: none;\n  border: 1px solid black;\n  padding: 5px;\n  border-radius: 3px;\n  background: #c0c0c0;\n  color: inherit;\n}\n.component div p a:hover {\n  background: white;\n}\n", ""]);
 
 
 /***/ }),
@@ -38222,9 +38222,13 @@ function Photo({
   photo
 }) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: `https://picsum.photos/id/${photo.id}/400`,
+    src: `https://picsum.photos/id/${photo.id}/350`,
     alt: `Author: ${photo.author}`
-  }));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "by ", photo.author), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: photo.url,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "View on Unsplash"))));
 }
 
 /***/ }),
